@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\DistributorController;
 
 // Halaman Utama Index
 Route::get('/', function () {
@@ -48,4 +49,13 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('/admin/employee', [EmployeController::class, 'store'])->name('employee.store');
     Route::put('/admin/employee/{id}', [EmployeController::class, 'update'])->name('employee.update');
     Route::delete('/admin/employee/{id}', [EmployeController::class, 'destroy'])->name('employee.destroy');
+
+    
+    // Route Data Distributor
+    Route::get('/admin/distributor', [DistributorController::class, 'index'])->name('distributor.index');
+    Route::post('/admin/distributor', [DistributorController::class, 'store'])->name('distributor.store');
+    Route::put('/admin/distributor/{id}', [DistributorController::class, 'update'])->name('distributor.update');
+    Route::delete('/admin/distributor/{id}', [DistributorController::class, 'destroy'])->name('distributor.destroy');
+
+
 });

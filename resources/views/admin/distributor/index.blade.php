@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Barang - TB Harapan Bumi Mas</title>
+    <title>Manajemen Distributor - TB Harapan Bumi Mas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@
                             <i class="fa-solid fa-chart-pie w-4 text-sm"></i>
                             <span>Dashboard</span>
                         </a>
-                        <a href="{{ route('barang.index') }}" class="active-menu flex items-center gap-3 px-4 py-2.5 text-xs transition">
+                        <a href="{{ route('barang.index') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-l-full text-xs font-medium hover:text-white hover:bg-white/10 transition">
                             <i class="fa-solid fa-boxes-stacked w-4 text-sm"></i>
                             <span>Stok Material</span>
                         </a>
@@ -79,13 +79,11 @@
                             <i class="fa-solid fa-cash-register w-4 text-sm"></i>
                             <span>Kasir & Transaksi</span>
                         </a>
-                        <a href="{{ route('employee.index') }}"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-l-full text-xs font-medium hover:text-white hover:bg-white/10 transition">
+                        <a href="{{ route('employee.index') }}" class="flex items-center gap-3 px-4 py-2.5 rounded-l-full text-xs font-medium hover:text-white hover:bg-white/10 transition">
                             <i class="fa-solid fa-user-check w-4 text-sm"></i>
                             <span>Karyawan</span>
                         </a>
-                        <a href="{{ route('distributor.index') }}"
-                            class="flex items-center gap-3 px-4 py-2.5 rounded-l-full text-xs font-medium hover:text-white hover:bg-white/10 transition">
+                        <a href="{{ route('distributor.index') }}" class="active-menu flex items-center gap-3 px-4 py-2.5 text-xs transition">
                             <i class="fa-solid fa-truck-field w-4 text-sm"></i>
                             <span>Data Distributor</span>
                         </a>
@@ -120,7 +118,7 @@
                 </div>
 
                 <div class="relative w-full md:w-80">
-                    <input type="text" id="globalSearchInput" placeholder="Cari Kode atau Nama Barang..." 
+                    <input type="text" id="globalSearchInput" placeholder="Cari Nama Distributor atau Kategori..." 
                         class="w-full bg-white text-xs pl-9 pr-3 py-2 rounded-xl border border-emerald-200/80 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 shadow-sm transition">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
                 </div>
@@ -148,8 +146,8 @@
                 
                 <div class="flex items-center justify-between mb-3 flex-shrink-0">
                     <div class="flex items-center gap-2">
-                        <h2 class="text-base font-bold text-slate-800">Daftar Barang & Material</h2>
-                        <span id="totalBadge" class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">{{ count($barangs) }} Data</span>
+                        <h2 class="text-base font-bold text-slate-800">Daftar Distributor Supplier</h2>
+                        <span id="totalBadge" class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">{{ count($distributors) }} Data</span>
                     </div>
                     <span class="text-[10px] text-slate-400 font-medium">Updated Real-time</span>
                 </div>
@@ -157,7 +155,7 @@
                 <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-2.5 mb-3 flex-shrink-0">
                     <div class="flex flex-1 items-center gap-2">
                         <div class="relative flex-1 max-w-sm">
-                            <input type="text" id="searchInput" placeholder="Cari Nama atau Satuan..." 
+                            <input type="text" id="searchInput" placeholder="Cari Distributor atau Kontak..." 
                                 class="w-full bg-slate-50 text-xs pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600">
                             <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-400 text-xs"></i>
                         </div>
@@ -171,47 +169,51 @@
 
                         <button onclick="openModal()" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition shadow-sm">
                             <i class="fa-solid fa-plus text-xs"></i>
-                            <span>Tambah Barang</span>
+                            <span>Tambah Distributor</span>
                         </button>
                     </div>
                 </div>
 
                 <div class="overflow-auto flex-1 rounded-xl border border-slate-100 relative">
-                    <table class="w-full text-left border-collapse min-w-[850px]" id="barangTable">
+                    <table class="w-full text-left border-collapse min-w-[950px]" id="distributorTable">
                         <thead class="sticky top-0 bg-emerald-50/70 z-10 shadow-sm backdrop-blur-md">
                             <tr class="text-emerald-900 text-[11px] font-bold uppercase tracking-wider border-b border-emerald-100">
                                 <th class="py-2.5 px-3 w-10 text-center">#</th>
-                                <th class="py-2.5 px-3 text-right">Kode Barang</th>
-                                <th class="py-2.5 px-3">Nama Barang</th>
-                                <th class="py-2.5 px-3 text-center">Satuan</th>
-                                <th class="py-2.5 px-3 text-right">Harga Modal</th>
-                                <th class="py-2.5 px-3 text-right">Harga Jual</th>
-                                <th class="py-2.5 px-3 text-right">Harga Grosir</th>
+                                <th class="py-2.5 px-3">Kode</th>
+                                <th class="py-2.5 px-3">Nama Distributor</th>
+                                <th class="py-2.5 px-3">Kategori Suplai</th>
+                                <th class="py-2.5 px-3">Kontak Person</th>
+                                <th class="py-2.5 px-3">No. Telepon / WA</th>
+                                <th class="py-2.5 px-3">Alamat</th>
                                 <th class="py-2.5 px-3 text-center">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="barangTableBody" class="divide-y divide-slate-100 text-xs font-medium text-slate-700">
-                            @if (count($barangs) == 0)
+                        <tbody id="distributorTableBody" class="divide-y divide-slate-100 text-xs font-medium text-slate-700">
+                            @if (count($distributors) == 0)
                                 <tr>
-                                    <td colspan="8" class="py-6 text-center text-slate-400 font-medium text-xs">Belum ada data barang tersedia</td>
+                                    <td colspan="8" class="py-6 text-center text-slate-400 font-medium text-xs">Belum ada data distributor tersedia</td>
                                 </tr>
                             @else
-                                @foreach ($barangs as $index =>$item)
-                                    <tr class="hover:bg-emerald-50/40 transition border-b border-slate-100 barang-row">
+                                @foreach ($distributors as $index =>$item)
+                                    <tr class="hover:bg-emerald-50/40 transition border-b border-slate-100 distributor-row">
                                         <td class="py-2 px-3 text-center font-bold text-slate-400 text-[11px]">{{ $index + 1 }}</td>
-                                        <td class="py-2 px-3 font-semibold text-slate-800 item-nama text-right">{{ $item->kode_barang }}</td>
-                                        <td class="py-2 px-3 font-semibold text-slate-800 item-nama">{{ $item->nama_barang }}</td>
-                                        <td class="py-2 px-3 text-center text-slate-500 item-satuan">{{ $item->satuan }}</td>
-                                        <td class="py-2 px-3 text-right font-medium text-slate-600">Rp {{ number_format($item->harga_modal, 0, ',', '.') }}</td>
-                                        <td class="py-2 px-3 text-right font-bold text-emerald-700">Rp {{ number_format($item->harga_jual, 0, ',', '.') }}</td>
-                                        <td class="py-2 px-3 text-right font-medium text-teal-700">
-                                            {{ $item->harga_grosir ? 'Rp ' . number_format($item->harga_grosir, 0, ',', '.') : '-' }}
+                                        <td class="py-2 px-3 font-semibold text-slate-800">{{ $item->distributor_code }}</td>
+                                        <td class="py-2 px-3 font-bold text-emerald-900">{{ $item->distributor_name }}</td>
+                                        <td class="py-2 px-3">
+                                            <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full text-[10px] font-bold">{{ $item->category_stock }}</span>
                                         </td>
-                                        <td class="py-2 px-3 text-center space-x-1">
+                                        <td class="py-2 px-3 text-slate-600">{{ $item->contact_person }}</td>
+                                        <td class="py-2 px-3 font-medium text-slate-600">
+                                            <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $item->phone) }}" target="_blank" class="text-emerald-700 hover:underline">
+                                                <i class="fa-brands fa-whatsapp text-emerald-600 mr-1"></i> {{ $item->phone }}
+                                            </a>
+                                        </td>
+                                        <td class="py-2 px-3 text-slate-500 truncate max-w-xs" title="{{ $item->address }}">{{ $item->address }}</td>
+                                        <td class="py-2 px-3 text-center space-x-1 whitespace-nowrap">
                                             <button onclick='openEditModal(@json($item))' class="bg-amber-50 text-amber-600 hover:bg-amber-100 px-2 py-1 rounded text-[11px] font-semibold transition">
                                                 <i class="fa-solid fa-pen-to-square"></i> Edit
                                             </button>
-                                            <form action="{{ route('barang.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
+                                            <form action="{{ route('distributor.destroy', $item->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus distributor ini?')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="bg-rose-50 text-rose-600 hover:bg-rose-100 px-2 py-1 rounded text-[11px] font-semibold transition">
@@ -227,7 +229,7 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-3 mt-3 pt-2 text-[11px] text-slate-500 flex-shrink-0">
-                    <p id="tableInfo">Menampilkan {{ count($barangs) }} data barang</p>
+                    <p id="tableInfo">Menampilkan {{ count($distributors) }} data distributor</p>
                 </div>
 
             </section>
@@ -235,52 +237,44 @@
     </div>
 
     <!-- Modal Form Tambah / Edit -->
-    <div id="barangModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+    <div id="distributorModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-2xl max-w-md w-full p-5 shadow-2xl relative border border-emerald-100">
             <div class="flex justify-between items-center mb-3 pb-2 border-b border-slate-100">
-                <h3 id="modalTitle" class="text-sm font-bold text-slate-800">Tambah Barang Baru</h3>
+                <h3 id="modalTitle" class="text-sm font-bold text-slate-800">Tambah Distributor Baru</h3>
                 <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600">
                     <i class="fa-solid fa-xmark text-base"></i>
                 </button>
             </div>
 
-            <form id="barangForm" action="{{ route('barang.store') }}" method="POST" class="space-y-3 text-xs">
+            <form id="distributorForm" action="{{ route('distributor.store') }}" method="POST" class="space-y-3 text-xs">
                 @csrf
                 <input type="hidden" id="methodField" name="_method" value="POST">
 
                 <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Nama Barang Material</label>
-                    <input type="text" name="nama_barang" id="inputNama" required placeholder="Misal: Semen Tiga Roda 50kg" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                    <label class="block font-semibold text-slate-600 mb-1">Nama Perusahaan / Toko Distributor</label>
+                    <input type="text" name="distributor_name" id="inputNama" required placeholder="Misal: PT. Semen Tonasa / TB. Berkah" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
                 </div>
                 <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Satuan Material</label>
-                    <select name="satuan" id="inputSatuan" required class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
-                        <option value="Sak">Sak</option>
-                        <option value="Pcs">PCS</option>
-                        <option value="Batang">Batang</option>
-                        <option value="Lembar">Lembar</option>
-                        <option value="Dus">Dus</option>
-                        <option value="Meter">Meter</option>
-                        <option value="M³ (Kubik)">M³ (Kubik)</option>
-                        <option value="Rit/Colt">Rit/Colt</option>
-                        <option value="Pail">Pail</option>
-                        <option value="Buah">Buah</option>
-                        <option value="Roll">Roll</option>
-                    </select>
+                    <label class="block font-semibold text-slate-600 mb-1">Kategori Stok / Suplai Material</label>
+                    <input type="text" name="category_stock" id="inputKategori" required placeholder="Misal: Semen & Mortar, Besi & Baja" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
                 </div>
                 <div class="grid grid-cols-2 gap-2.5">
                     <div>
-                        <label class="block font-semibold text-slate-600 mb-1">Harga Modal (Rp)</label>
-                        <input type="number" min="0" name="harga_modal" id="inputHargaModal" required placeholder="60000" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                        <label class="block font-semibold text-slate-600 mb-1">Kontak Person (Sales)</label>
+                        <input type="text" name="contact_person" id="inputCp" required placeholder="Bpk. Budi" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
                     </div>
                     <div>
-                        <label class="block font-semibold text-slate-600 mb-1">Harga Jual (Rp)</label>
-                        <input type="number" min="0" name="harga_jual" id="inputHargaJual" required placeholder="68000" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                        <label class="block font-semibold text-slate-600 mb-1">No. Telepon / WhatsApp</label>
+                        <input type="text" name="phone" id="inputPhone" required placeholder="081234567890" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
                     </div>
                 </div>
                 <div>
-                    <label class="block font-semibold text-slate-600 mb-1">Harga Grosir (Rp) <span class="text-slate-400 font-normal">(Opsional)</span></label>
-                    <input type="number" min="0" name="harga_grosir" id="inputHargaGrosir" placeholder="65000" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                    <label class="block font-semibold text-slate-600 mb-1">Email <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                    <input type="email" name="email" id="inputEmail" placeholder="sales@distributor.com" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-600 mb-1">Alamat Kantor / Gudang</label>
+                    <textarea name="address" id="inputAddress" rows="2" required placeholder="Jl. Veteran No. 12, Banjarmasin" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600"></textarea>
                 </div>
 
                 <div class="flex justify-end gap-2 pt-3">
@@ -293,61 +287,45 @@
 
     <script>
         function openModal() {
-            document.getElementById('modalTitle').innerText = 'Tambah Barang Baru';
-            document.getElementById('barangForm').action = "{{ route('barang.store') }}";
+            document.getElementById('modalTitle').innerText = 'Tambah Distributor Baru';
+            document.getElementById('distributorForm').action = "{{ route('distributor.store') }}";
             document.getElementById('methodField').value = 'POST';
-            document.getElementById('barangForm').reset();
-            document.getElementById('barangModal').classList.remove('hidden');
+            document.getElementById('distributorForm').reset();
+            document.getElementById('distributorModal').classList.remove('hidden');
         }
 
         function openEditModal(data) {
-            document.getElementById('modalTitle').innerText = 'Edit Data Barang';
-            document.getElementById('barangForm').action = `/admin/barang/${data.id}`;
+            document.getElementById('modalTitle').innerText = 'Edit Data Distributor';
+            document.getElementById('distributorForm').action = `/admin/distributor/${data.id}`;
             document.getElementById('methodField').value = 'PUT';
             
-            document.getElementById('inputNama').value = data.nama_barang;
-            document.getElementById('inputSatuan').value = data.satuan;
-            document.getElementById('inputHargaModal').value = data.harga_modal;
-            document.getElementById('inputHargaJual').value = data.harga_jual;
-            document.getElementById('inputHargaGrosir').value = data.harga_grosir ?? '';
+            document.getElementById('inputNama').value = data.distributor_name;
+            document.getElementById('inputKategori').value = data.category_stock;
+            document.getElementById('inputCp').value = data.contact_person;
+            document.getElementById('inputPhone').value = data.phone;
+            document.getElementById('inputEmail').value = data.email ?? '';
+            document.getElementById('inputAddress').value = data.address;
 
-            document.getElementById('barangModal').classList.remove('hidden');
+            document.getElementById('distributorModal').classList.remove('hidden');
         }
 
         function closeModal() {
-            document.getElementById('barangModal').classList.add('hidden');
+            document.getElementById('distributorModal').classList.add('hidden');
         }
 
-        /**
-         * Penjelasan Teknis Perbaikan Search Bar:
-         * 1. querySelectorAll('.barang-row td') digunakan untuk memilih spesifik kolom berdasarkan urutan index-nya (nth-child):
-         *    - Index [1] = Kode Barang
-         *    - Index [2] = Nama Barang
-         *    - Index [3] = Satuan
-         * 2. Dengan mengambil innerText/textContent dari index [2], kita memastikan data yang dicocokkan 
-         *    secara akurat adalah 'nama_barang' (bukan kode_barang lagi).
-         * 3. Digunakan fungsi .toLowerCase() dan .trim() agar pencarian bersifat case-insensitive (tidak membedakan huruf besar/kecil)
-         *    serta mengabaikan spasi berlebih.
-         */
         function filterTable() {
-            // Mengambil input teks dari search bar dan mengubahnya ke huruf kecil
             const query = document.getElementById('searchInput').value.toLowerCase().trim();
-            const rows = document.querySelectorAll('.barang-row');
+            const rows = document.querySelectorAll('.distributor-row');
 
             let visibleCount = 0;
 
             rows.forEach(row => {
-                // Mengambil elemen <td> berdasarkan urutan kolom di dalam baris (row)
                 const cols = row.querySelectorAll('td');
-                
-                // Index 2 adalah kolom 'Nama Barang'
-                const namaBarang = cols[2] ? cols[2].textContent.toLowerCase().trim() : '';
-                
-                // Index 3 adalah kolom 'Satuan'
-                const satuanBarang = cols[3] ? cols[3].textContent.toLowerCase().trim() : '';
+                const namaDistributor = cols[2] ? cols[2].textContent.toLowerCase().trim() : '';
+                const kategori = cols[3] ? cols[3].textContent.toLowerCase().trim() : '';
+                const contactPerson = cols[4] ? cols[4].textContent.toLowerCase().trim() : '';
 
-                // Memeriksa apakah teks pencarian cocok dengan Nama Barang atau Satuan
-                if (namaBarang.includes(query) || satuanBarang.includes(query)) {
+                if (namaDistributor.includes(query) || kategori.includes(query) || contactPerson.includes(query)) {
                     row.style.display = '';
                     visibleCount++;
                 } else {
@@ -355,14 +333,12 @@
                 }
             });
 
-            // Opsional: memperbarui info jumlah baris yang tampil saat difilter
             const tableInfo = document.getElementById('tableInfo');
             if (tableInfo) {
-                tableInfo.textContent = `Menampilkan ${visibleCount} data barang`;
+                tableInfo.textContent = `Menampilkan ${visibleCount} data distributor`;
             }
         }
 
-        // Event listener untuk input pencarian lokal dan global
         document.getElementById('searchInput').addEventListener('input', filterTable);
         
         const globalSearch = document.getElementById('globalSearchInput');
@@ -374,9 +350,9 @@
         }
 
         function exportToExcel() {
-            const table = document.getElementById("barangTable");
-            const workbook = XLSX.utils.table_to_book(table, { sheet: "Data Barang" });
-            XLSX.writeFile(workbook, `Data_Barang_${new Date().toISOString().slice(0,10)}.xlsx`);
+            const table = document.getElementById("distributorTable");
+            const workbook = XLSX.utils.table_to_book(table, { sheet: "Data Distributor" });
+            XLSX.writeFile(workbook, `Data_Distributor_${new Date().toISOString().slice(0,10)}.xlsx`);
         }
     </script>
 </body>

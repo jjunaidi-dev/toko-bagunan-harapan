@@ -83,7 +83,7 @@
                             <i class="fa-solid fa-user-check w-4 text-sm"></i>
                             <span>Karyawan</span>
                         </a>
-                        <a href="#"
+                        <a href="{{ route('distributor.index') }}"
                             class="flex items-center gap-3 px-4 py-2.5 rounded-l-full text-xs font-medium hover:text-white hover:bg-white/10 transition">
                             <i class="fa-solid fa-truck-field w-4 text-sm"></i>
                             <span>Data Distributor</span>
