@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\EmployeController;
 
 // Halaman Utama Index
 Route::get('/', function () {
@@ -41,4 +42,10 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::put('/admin/transaksi/{id}', [TransaksiController::class, 'update'])->name('transaksi.update');
     Route::delete('/admin/transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
     Route::get('/admin/transaksi/api/barang/{id}', [TransaksiController::class, 'getBarangDetail'])->name('transaksi.get-barang');
+
+    //Route Karyawan
+    Route::get('/admin/employee', [EmployeController::class, 'index'])->name('employee.index');
+    Route::post('/admin/employee', [EmployeController::class, 'store'])->name('employee.store');
+    Route::put('/admin/employee/{id}', [EmployeController::class, 'update'])->name('employee.update');
+    Route::delete('/admin/employee/{id}', [EmployeController::class, 'destroy'])->name('employee.destroy');
 });

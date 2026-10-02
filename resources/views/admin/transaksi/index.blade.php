@@ -100,10 +100,10 @@
                             <i class="fa-solid fa-cash-register w-4 text-sm"></i>
                             <span>Kasir & Transaksi</span>
                         </a>
-                        <a href="#"
+                        <a href="{{ route('employee.index') }}"
                             class="flex items-center gap-3 px-4 py-2.5 rounded-l-full text-xs font-medium hover:text-white hover:bg-white/10 transition">
                             <i class="fa-solid fa-user-check w-4 text-sm"></i>
-                            <span>Absensi</span>
+                            <span>Karyawan</span>
                         </a>
                         <a href="#"
                             class="flex items-center gap-3 px-4 py-2.5 rounded-l-full text-xs font-medium hover:text-white hover:bg-white/10 transition">
